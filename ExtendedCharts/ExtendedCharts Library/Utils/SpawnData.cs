@@ -30,7 +30,7 @@ namespace ExtendedCharts
         public string Shape;
         public int Track;
         public string Path;
-
+        
 
     }
 

@@ -1,5 +1,7 @@
 using System;
 
+namespace ExtendedCharts
+{
     public class Note
     {
         public int EventType;
@@ -31,4 +33,4 @@ using System;
             return t * t * t * (t * (6f * t - 15f) + 10f);
         }
     }
-
+}
