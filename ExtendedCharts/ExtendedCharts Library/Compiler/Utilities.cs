@@ -1,22 +1,20 @@
-using System;
+using ExtendedCharts;
 
-class Utilities
+public static class Utilities
 {
-	public static float Ease(string Ease, float t)
+	public static float Ease(string Ease, float CurrentTimeInTheLerp)
 	{
 		Easing ease = new Easing();
 
 		if (Ease == "Linear")
-			return t;
+			return CurrentTimeInTheLerp;
 
 		if (Ease == "Exponential")
-			return ease.Exponential(t);
+			return ease.Exponential(CurrentTimeInTheLerp);
 		if (Ease == "Smooth Step")
-			return ease.SmoothStep(t);
+			return ease.SmoothStep(CurrentTimeInTheLerp);
 		if (Ease == "Smoother Step")
-			return ease.SmootherStep(t);
-
-
-		return t;
-	}
+			return ease.SmootherStep(CurrentTimeInTheLerp);
+        return CurrentTimeInTheLerp;
+    }
 }

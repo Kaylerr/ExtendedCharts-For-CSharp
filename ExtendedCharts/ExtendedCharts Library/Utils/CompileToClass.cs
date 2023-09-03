@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.IO;
+using System.Numerics;
 
 namespace ExtendedCharts
 {
@@ -13,20 +12,20 @@ namespace ExtendedCharts
         //If Track or Camera
         public int Track;
         public float Duration;
-        
-        public AnimatePosition(Vanilla vex)
+
+        public AnimatePosition(VanillaEvents _
         {
-            Beats = vex.Beats;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            StartPosition = new Vector3(vex.StartPosition[0], vex.StartPosition[1], vex.StartPosition[2]);
-            EndPosition = new Vector3(vex.EndPosition[0], vex.EndPosition[1], vex.EndPosition[2]);
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-            
+            StartPosition = _StartPosition;
+            EndPosition = _EndPosition;
+            Object = _Object ?? "None";
+            Easing = _Easing ?? "Linear";
+            Duration = _Duration;
+            Track = _Track;
+
         }
     }
 
@@ -39,20 +38,20 @@ namespace ExtendedCharts
         //If Track or Camera
         public int Track;
         public float Duration;
-        public AnimateRotation(Vanilla vex)
+        public AnimateRotation(VanillaEvents _
         {
 
-            Beats = vex.Beats;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            StartRotation = new Vector3(vex.StartRotation[0], vex.StartRotation[1], vex.StartRotation[2]);
-            EndRotation = new Vector3(vex.EndRotation[0], vex.EndRotation[1], vex.EndRotation[2]);
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-            
+            StartRotation = _StartRotation;
+            EndRotation = _EndRotation;
+            Object = _Object ?? "None";
+            Easing = _Easing ?? "Linear";
+            Duration = _Duration;
+            Track = _Track;
+
         }
     }
 
@@ -66,22 +65,22 @@ namespace ExtendedCharts
         public string Object, Easing;
         public float Duration;
 
-        public AnimateScale(Vanilla vex)
+        public AnimateScale(VanillaEvents _
         {
 
-            Beats = vex.Beats;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            Object = vex.Object ?? "None";
+            Object = _Object ?? "None";
 
-            StartScale = new Vector3(vex.StartScale[0], vex.StartScale[1], vex.StartScale[2]); //camera only ever takes the FIRST VALUE - the X so to say.
-            EndScale = new Vector3(vex.EndScale[0], vex.EndScale[1], vex.EndScale[2]);
+            StartScale = _StartScale; //Camera scale only takes in the first value
+            EndScale = _EndScale;
 
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-            
+            Easing = _Easing ?? "Linear";
+            Duration = _Duration;
+            Track = _Track;
+
         }
     }
 
@@ -97,18 +96,18 @@ namespace ExtendedCharts
         public string Object, Easing;
         public float Duration;
 
-        public AnimateColor(Vanilla vex)
+        public AnimateColor(VanillaEvents _
         {
 
-            Beats = vex.Beats;
+            Beats = _Beats;
 
-            StartColor = vex.StartColor ?? Utilities.ToHex(Color.white);
-            EndColor = vex.EndColor ?? Utilities.ToHex(Color.white);
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-            
+            StartColor = _StartColor ?? "FFFFFF"; //default value is Color.white in HexCode
+            EndColor = _EndColor ?? "FFFFFF"; //default value is Color.white in HexCode
+            Object = _Object ?? "None";
+            Easing = _Easing ?? "Linear";
+            Duration = _Duration;
+            Track = _Track;
+
         }
     }
 
@@ -121,20 +120,20 @@ namespace ExtendedCharts
         public string Object, Easing;
         public float Duration;
 
-        public AnimateFade(Vanilla vex)
+        public AnimateFade(VanillaEvents _
         {
 
-            Beats = vex.Beats;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            StartFade = vex.StartFade;
-            EndFade = vex.EndFade;
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-            
+            StartFade = _StartFade;
+            EndFade = _EndFade;
+            Object = _Object ?? "None";
+            Easing = _Easing ?? "Linear";
+            Duration = _Duration;
+            Track = _Track;
+
         }
     }
 
@@ -148,19 +147,19 @@ namespace ExtendedCharts
         public bool Fade;
         public string Easing;
         public float Duration;
-        public ChangeText(Vanilla vex)
+        public ChangeText(VanillaEvents _
         {
 
-            Beats = vex.Beats;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            Object = vex.Object ?? "None";
-            NewText = vex.Text;
-            Fade = vex.Fading;
-            Easing = vex.Easing ?? "None";
-            Duration = vex.Duration;
-            
+            Object = _Object ?? "None";
+            NewText = _Text;
+            Fade = _Fading;
+            Easing = _Easing ?? "None";
+            Duration = _Duration;
+
         }
     }
 
@@ -173,27 +172,17 @@ namespace ExtendedCharts
         public bool Fade;
         public string Easing;
         public float Duration;
-        public ChangeImage(Vanilla vex)
+        public ChangeImage(VanillaEvents _
         {
-
-            Object = vex.Object ?? "None";
-            Path = vex.Path;
-            Beats = vex.Beats;
+            Object = _Object ?? "None";
+            Path = _Path;
+            Beats = _Beats;
             if (Beats == 0)
                 Beats = 0.01;
 
-            Fade = vex.Fading;
-            Easing = vex.Easing ?? "None";
-            Duration = vex.Duration;
-
-            try
-            {
-                Utility.Utilties.AddImage(Path); //the AddImage function will call isDoneWithAll itself.
-            }
-            catch
-            {
-                
-            }
+            Fade = _Fading;
+            Easing = _Easing ?? "None";
+            Duration = _Duration;
         }
     }
 }

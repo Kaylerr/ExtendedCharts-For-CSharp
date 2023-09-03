@@ -5,7 +5,7 @@ using ExtendedCharts;
 
 class ExtendedCompiler
 {
-    List<Vanilla> Events = new List<Vanilla>();
+    List<VanillaEvents> Events = new List<VanillaEvents>();
     void CompileScript(string Directory, string Final)
     {
         string JSONString = "";
@@ -26,7 +26,7 @@ class ExtendedCompiler
     }
 
 
-    public void AddEvent(Vanilla obj)
+    public void AddEvent(VanillaEvents obj)
     {
         Events.Add(obj);
     }

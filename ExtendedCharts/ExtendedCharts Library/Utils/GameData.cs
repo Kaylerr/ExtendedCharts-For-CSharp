@@ -19,18 +19,18 @@ namespace ExtendedCharts
 
     public class Easing
     {
-        public float Exponential(float t)
+        public float Exponential(float CurrentTimeInTheLerp)
         {
-            return t * t;
+            return CurrentTimeInTheLerp * CurrentTimeInTheLerp;
         }
-        public float SmoothStep(float t)
+        public float SmoothStep(float CurrentTimeInTheLerp)
         {
-            return t * t * (3f - 2f * t);
+            return CurrentTimeInTheLerp * CurrentTimeInTheLerp * (3f - 2f * CurrentTimeInTheLerp);
         }
-        public float SmootherStep(float t)
+        public float SmootherStep(float CurrentTimeInTheLerp)
         {
 
-            return t * t * t * (t * (6f * t - 15f) + 10f);
+            return CurrentTimeInTheLerp * CurrentTimeInTheLerp * CurrentTimeInTheLerp * (CurrentTimeInTheLerp * (6f * CurrentTimeInTheLerp - 15f) + 10f);
         }
     }
 }
