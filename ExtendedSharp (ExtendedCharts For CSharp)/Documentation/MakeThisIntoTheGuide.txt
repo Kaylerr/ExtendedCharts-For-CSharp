@@ -1,0 +1,8 @@
+steps:
+install vscode
+install c# extension.
+install coderunner
+install chocolatey
+install chocolatey.compatibility.extension
+install scriptcs from chocolatey
+install template.
