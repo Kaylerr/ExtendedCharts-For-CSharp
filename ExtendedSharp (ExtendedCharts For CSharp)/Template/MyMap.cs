@@ -5,23 +5,29 @@ using ExtendedCharts.ExtendedCharts;
 using Newtonsoft.Json;
 using System.IO;
 
-class NewMap
+/*
+Template: Skye
+Chart: <put your name here!>
+
+ExtendedCharts Version: 0.10.0. 
+*/
+
+class MyMap
 {
-     string ChartMapFolder = "C:/Path/To/Your/Map/Folder"; //This will usually be where your game is installed, plus where the Poly Beats_Data folder of the game is, then the StreamingAssets folder, Custom Maps folder, then your map folder.
-     string ChartName = "ThisIsMyChart.extendedcharts"; //Going to be saved to the ChartMapFolder.
+     string ChartMapFolder = "Path/To/Your/Chart-Map/Folder"; //This will usually be where your game is installed, plus where the Poly Beats_Data folder of the game is, then the StreamingAssets folder, Custom Maps folder, then your map folder.
+     string ChartName = "MyNewChart.extendedcharts"; //Going to be saved to the ChartMapFolder.
 
     #region LittleHandler
     static void Main() 
     {
-        NewMap newMap = new NewMap();
-        newMap.RegisterNewUserMap();
+        MyMap myMap = new MyMap();
+        myMap.RegisterNewUserMap();
     }
     #endregion
 
     void RegisterNewUserMap() 
     {
         // \/\/\/\/ YOUR CODE GOES HERE 
-
         
         // /\/\/\/\ YOUR CODE GOES HERE
 
@@ -31,108 +37,6 @@ class NewMap
         compiler.CompileScript(ChartMapFolder, ChartName);
     }
 }
-
-/*
-VanillaModules was deprecated in ExtendedCharts For CSharp 0.10.0.
-#region VanillaModules (You Declare These)
-namespace ExtendedCharts
-{
-    class TransformIJ
-    {
-        public void ChangePosition(float Beats, string Object, Vector3 Start, Vector3 End, float Duration, string EasingType)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object; //the game can handle null things i dont think i need to care about fields being null, do I?
-            vex.StartPosition = Start;
-            vex.EndPosition = End;
-            vex.Duration = Duration;
-            vex.Easing = EasingType;
-
-            AnimatePosition position = new AnimatePosition(vex);
-        }
-
-        public void ChangeRotation(float Beats, string Object, Vector3 Start, Vector3 End, float Duration, string EasingType)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object; //the game can handle null things i dont think i need to care about fields being null, do I?
-            vex.StartRotation = Start;
-            vex.EndRotation = End;
-            vex.Duration = Duration;
-            vex.Easing = EasingType;
-
-            AnimateRotation rotation = new AnimateRotation(vex);
-        }
-
-        public void ChangeScale(float Beats, string Object, Vector3 Start, Vector3 End, float Duration, string EasingType)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object; //the game can handle null things i dont think i need to care about fields being null, do I?
-            vex.StartScale = Start;
-            vex.EndScale = End;
-            vex.Duration = Duration;
-            vex.Easing = EasingType;
-
-            AnimateScale scale = new AnimateScale(vex);
-        }
-    }
-
-    class ExtendedInterface
-    {
-        public void ChangeImage(float Beats, string Object, string Path)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object;
-            vex.Path = Path;
-
-            ChangeImage image = new ChangeImage(vex);
-        }
-
-        public void ChangeText(float Beats, string Object, string NewText)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object;
-            vex.Text = NewText;
-
-            ChangeText text = new ChangeText(vex);
-        }
-    }
-
-        class OverColor
-    {
-        public void ChangeColor(float Beats, string Object, string Start, string End, float Duration, string EasingType)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object; //the game can handle null things i dont think i need to care about fields being null, do I?
-            vex.StartColor = Start;
-            vex.EndColor = End;
-            vex.Duration = Duration;
-            vex.Easing = EasingType;
-
-            AnimateColor color = new AnimateColor(vex);
-        }
-
-        public void ChangeOpacity(float Beats, string Object, float Start, float End, float Duration, string EasingType)
-        {
-            VanillaEvents vex = new VanillaEvents();
-            vex.Beats = Beats;
-            vex.Object = Object; //the game can handle null things i dont think i need to care about fields being null, do I?
-            vex.StartFade = Start;
-            vex.EndFade = End;
-            vex.Duration = Duration;
-            vex.Easing = EasingType;
-
-            AnimateFade fade = new AnimateFade(vex);
-        }
-    }
-}
-#endregion
-*/
 
 #region Object Types
 
@@ -602,7 +506,7 @@ Compiler.AddEvent(vex);
                 AnimateColor color = new AnimateColor(vex);
             }
 
-            public void ChangeOpacity(float Beats, float Start, float End, float Duration, string EasingType)
+            public void ChangeFade(float Beats, float Start, float End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
@@ -672,7 +576,7 @@ public void CompileScript(string MapFolder, string CName)
 {
     using (var stream = new MemoryStream())
     using (var writer = new StreamWriter(stream))
-    using (var jsonWriter = new CustomJsonTextWriter(writer))
+    using (var jsonWriter = new JsonTextWriter(writer))
     {
         var serializer = new Newtonsoft.Json.JsonSerializer();
         serializer.Converters.Add(new VanillaEventsConverter());
@@ -688,10 +592,7 @@ public void CompileScript(string MapFolder, string CName)
 
             string Destination = Path.Combine(MapFolder, CName); //not to be confused with the CName you use on websites. Looking at you, StormPacer.
 
-            if (!File.Exists(Destination))
-                File.Create(Destination);
-
-            File.WriteAllText(Destination, jsonString);
+            File.WriteAllText(Destination, "# Generated with the ExtendedSharp Builder at: " + DateTime.Now + "\n" + jsonString);
             Console.WriteLine("Finished with building your chart-map file!");
             Console.WriteLine("Your map can be found here: " + Destination);
             Console.WriteLine('\n' + "Press any key to exit the 'ExtendedSharp Builder' :3");
@@ -726,7 +627,7 @@ public class VanillaEventsConverter : Newtonsoft.Json.JsonConverter<VanillaEvent
             writer.WriteValue(value.EventType);
 
 writer.WritePropertyName("Beats");
-            writer.WriteValue(value.Beats);
+            writer.WriteValue(float.Parse(value.Beats.ToString("F4")));
 
             writer.WritePropertyName("Object");
             writer.WriteValue(value.Object);
@@ -735,15 +636,15 @@ writer.WritePropertyName("Beats");
             if (value.EventType == "Create")
             {
                 writer.WritePropertyName("Position");
-                writer.WriteValue(value.Position.ToString());
+                Vector3ToFloatArray(value.Position, writer, serializer);
                 writer.WritePropertyName("Rotation");
-                writer.WriteValue(value.Rotation.ToString());
+                Vector3ToFloatArray(value.Rotation, writer, serializer);
                 writer.WritePropertyName("Scale");
-                writer.WriteValue(value.Scale.ToString());
+                Vector3ToFloatArray(value.Scale, writer, serializer);
                 writer.WritePropertyName("Color");
                 writer.WriteValue(value.Color);
                 writer.WritePropertyName("Opacity");
-                writer.WriteValue(value.Opacity.ToString());
+                writer.WriteValue(value.Opacity);
                 writer.WritePropertyName("Name");
                 writer.WriteValue(value.Name);
                 // Include other relevant properties based on the context (e.g., Shape, Image, Text)
@@ -774,33 +675,33 @@ writer.WritePropertyName("Beats");
             if (value.EventType == "ChangePosition")
             {
                 writer.WritePropertyName("StartPosition");
-                writer.WriteValue(value.StartPosition.ToString());
+                Vector3ToFloatArray(value.StartPosition, writer, serializer);
                 writer.WritePropertyName("EndPosition");
-                writer.WriteValue(value.EndPosition.ToString());
+                Vector3ToFloatArray(value.EndPosition, writer, serializer);
                 writer.WritePropertyName("Duration");
-                writer.WriteValue(value.Duration.ToString());
+                writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
             }
             if (value.EventType == "ChangeRotation")
             {
                 writer.WritePropertyName("StartRotation");
-                writer.WriteValue(value.StartRotation.ToString());
+                Vector3ToFloatArray(value.StartRotation, writer, serializer);
                 writer.WritePropertyName("EndRotation");
-                writer.WriteValue(value.EndRotation.ToString());
+                Vector3ToFloatArray(value.EndRotation, writer, serializer);
                 writer.WritePropertyName("Duration");
-                writer.WriteValue(value.Duration.ToString());
+                writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
             }
             if (value.EventType == "ChangeScale")
             {
                 writer.WritePropertyName("StartScale");
-                writer.WriteValue(value.StartScale.ToString());
+                Vector3ToFloatArray(value.StartScale, writer, serializer);
                 writer.WritePropertyName("EndScale");
-                writer.WriteValue(value.EndScale.ToString());
+                Vector3ToFloatArray(value.EndScale, writer, serializer);
                 writer.WritePropertyName("Duration");
-                writer.WriteValue(value.Duration.ToString());
+                writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
             }
@@ -813,19 +714,19 @@ writer.WritePropertyName("Beats");
                 writer.WritePropertyName("EndColor");
                 writer.WriteValue(value.EndColor);
                 writer.WritePropertyName("Duration");
-                writer.WriteValue(value.Duration.ToString());
+                writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
             }
 
-            if (value.EventType == "ChangeOpacity")
+            if (value.EventType == "ChangeFade")
             {
                 writer.WritePropertyName("StartFade");
-                writer.WriteValue(value.StartFade.ToString());
+                writer.WriteValue(value.StartFade);
                 writer.WritePropertyName("EndFade");
-                writer.WriteValue(value.EndFade.ToString());
+                writer.WriteValue(value.EndFade);
                 writer.WritePropertyName("Duration");
-                writer.WriteValue(value.Duration.ToString());
+                writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
             }
@@ -848,33 +749,27 @@ writer.WritePropertyName("Beats");
 
             // Add more conditions for other object types as needed
         }
-        writer.WriteEndObject();
+        
+writer.WriteEndObject();
+    }
+
+    void Vector3ToFloatArray(Vector3 v3, JsonWriter writer, Newtonsoft.Json.JsonSerializer serializer)
+    {
+        // Start writing the JSON array for the vector
+        writer.WriteStartArray();
+
+        serializer.Serialize(writer, v3.X);
+        serializer.Serialize(writer, v3.Y);
+        serializer.Serialize(writer, v3.Z);
+
+        // End the JSON array for the vector
+        writer.WriteEndArray();
+
+        
 
     }
 }
 
-public class CustomJsonTextWriter : JsonTextWriter
-{
-    public CustomJsonTextWriter(TextWriter textWriter) : base(textWriter)
-    {
-    }
-
-    public override void WriteStartArray()
-    {
-        // Do nothing here to prevent writing the start array '['
-    }
-
-    public override void WriteEndArray()
-    {
-        // Do nothing here to prevent writing the end array ']'
-    }
-
-    public override void WritePropertyName(string name)
-    {
-        // Write property names without quotes
-        base.WritePropertyName(name, false);
-    }
-}
 
 
 #endregion
