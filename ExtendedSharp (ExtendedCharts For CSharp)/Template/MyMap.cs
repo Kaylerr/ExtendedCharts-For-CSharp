@@ -7,7 +7,7 @@ using System.IO;
 
 /*
 Template: Skye
-Chart: <put your name here!>
+Charter: <put your name here!>
 
 ExtendedCharts Version: 0.10.0. 
 */
@@ -27,6 +27,11 @@ class MyMap
 
     void RegisterNewUserMap() 
     {
+        /* Here we need to register our Camera and Tracks as objects in the game. */
+        InheritedTrackAnimations Track = new InheritedTrackAnimations();
+        InheritedCameraAnimations Camera = new InheritedCameraAnimations();
+
+
         // \/\/\/\/ YOUR CODE GOES HERE 
         
         // /\/\/\/\ YOUR CODE GOES HERE
@@ -42,7 +47,7 @@ class MyMap
 
 namespace ExtendedCharts
 {
-    public class Shape : InheritedAnimations
+    public class Shape : InheritedObjectAnimations
     {
         public string ShapeType = default!;
 
@@ -55,7 +60,7 @@ namespace ExtendedCharts
                 vex.Beats = 0.01;
 
             vex.Name = _Name ?? "New Shape Object";
-            Name = vex.Name; //for InheritedAnimations;
+            Name = vex.Name; //for InheritedObjectAnimations;
 
             vex.Position = _Position;
             vex.Rotation = _Rotation;
@@ -69,7 +74,7 @@ BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and
         }
     }
     
-    public class Image: InheritedAnimations
+    public class Image: InheritedObjectAnimations
     {
 
         public string Path = default!;
@@ -82,7 +87,7 @@ BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and
                 vex.Beats = 0.01;
 
             vex.Name = _Name ?? "New Image Object";
-            Name = vex.Name; //for InheritedAnimations;
+            Name = vex.Name; //for InheritedObjectAnimations;
 
            vex.Position = _Position;
             vex.Rotation = _Rotation;
@@ -96,7 +101,7 @@ BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and
         }
     }
 
-    public class Text: InheritedAnimations
+    public class Text: InheritedObjectAnimations
     {
 
         public string TextContents = default!;
@@ -110,7 +115,7 @@ BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and
 
             vex.Name = _Name ?? "New Text Object";
 
-            Name = vex.Name; //for InheritedAnimations;
+            Name = vex.Name; //for InheritedObjectAnimations;
 
             vex.Position = _Position;
             vex.Rotation = _Rotation;
@@ -430,9 +435,9 @@ Compiler.AddEvent(vex);
         }
     }
 
-    public class InheritedAnimations
-            {
-    public string Name = default!; //name of object to edit
+        public class InheritedObjectAnimations
+        {
+            public string Name = default!; //name of object to edit
 
             public void ChangePosition(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
             {
@@ -511,6 +516,152 @@ Compiler.AddEvent(vex);
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = Name; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.StartFade = Start;
+                vex.EndFade = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateFade fade = new AnimateFade(vex);
+            }
+
+        }
+
+        public class InheritedTrackAnimations
+        {
+            public int Name = default!; //name of object to edit
+
+            public void ChangePosition(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.Track = Track;
+                vex.StartPosition = Start;
+                vex.EndPosition = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimatePosition position = new AnimatePosition(vex);
+            }
+
+            public void ChangeRotation(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.Track = Track;
+                vex.StartRotation = Start;
+                vex.EndRotation = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateRotation rotation = new AnimateRotation(vex);
+            }
+
+            public void ChangeScale(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.Track = Track;
+                vex.StartScale = Start;
+                vex.EndScale = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateScale scale = new AnimateScale(vex);
+            }
+
+            public void ChangeColor(float Beats, int Track, string Start, string End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.Track = Track;
+                vex.StartColor = Start;
+                vex.EndColor = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateColor color = new AnimateColor(vex);
+            }
+
+            public void ChangeFade(float Beats, int Track, float Start, float End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.Track = Track;
+                vex.StartFade = Start;
+                vex.EndFade = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateFade fade = new AnimateFade(vex);
+            }
+
+        }
+
+        public class InheritedCameraAnimations
+        {
+
+            public void ChangePosition(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Camera"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.StartPosition = Start;
+                vex.EndPosition = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimatePosition position = new AnimatePosition(vex);
+            }
+
+            public void ChangeRotation(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Camera"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.StartRotation = Start;
+                vex.EndRotation = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateRotation rotation = new AnimateRotation(vex);
+            }
+
+            public void ChangeScale(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Camera"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.StartScale = Start;
+                vex.EndScale = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateScale scale = new AnimateScale(vex);
+            }
+
+            public void ChangeColor(float Beats, string Start, string End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Camera"; //the game can handle null things i dont think i need to care about fields being null, do I?
+                vex.StartColor = Start;
+                vex.EndColor = End;
+                vex.Duration = Duration;
+                vex.Easing = EasingType;
+
+                AnimateColor color = new AnimateColor(vex);
+            }
+
+            public void ChangeFade(float Beats, float Start, float End, float Duration, string EasingType)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Camera"; //the game can handle null things i dont think i need to care about fields being null, do I?
                 vex.StartFade = Start;
                 vex.EndFade = End;
                 vex.Duration = Duration;
@@ -682,6 +833,12 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
+
+                if(value.Object == "Track")
+                {
+                    writer.WritePropertyName("Track");
+                    writer.WriteValue(value.Track);
+                }
             }
             if (value.EventType == "ChangeRotation")
             {
@@ -693,6 +850,12 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
+
+                if(value.Object == "Track")
+                {
+                    writer.WritePropertyName("Track");
+                    writer.WriteValue(value.Track);
+                }
             }
             if (value.EventType == "ChangeScale")
             {
@@ -704,6 +867,12 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
+
+                if(value.Object == "Track")
+                {
+                    writer.WritePropertyName("Track");
+                    writer.WriteValue(value.Track);
+                }
             }
             #endregion
             #region OverColor FunctionFunneler
@@ -717,6 +886,12 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
+
+                if(value.Object == "Track")
+                {
+                    writer.WritePropertyName("Track");
+                    writer.WriteValue(value.Track);
+                }
             }
 
             if (value.EventType == "ChangeFade")
@@ -729,6 +904,12 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Duration);
                 writer.WritePropertyName("Easing");
                 writer.WriteValue(value.Easing);
+
+                if(value.Object == "Track")
+                {
+                    writer.WritePropertyName("Track");
+                    writer.WriteValue(value.Track);
+                }
             }
             #endregion
             #region ExtendedInterface FunctionFunneler
