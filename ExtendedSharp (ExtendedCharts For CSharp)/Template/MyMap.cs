@@ -9,7 +9,7 @@ using System.IO;
 Template: Skye
 Charter: <put your name here!>
 
-ExtendedCharts Version: 0.10.0. 
+ExtendedCharts Version: 0.11.0 - "Tracks" Update 
 */
 
 class MyMap
@@ -28,12 +28,27 @@ class MyMap
     void RegisterNewUserMap() 
     {
         /* Here we need to register our Camera and Tracks as objects in the game. */
-        InheritedTrackAnimations Track = new InheritedTrackAnimations();
-        InheritedCameraAnimations Camera = new InheritedCameraAnimations();
+        #region Base Objects
+        //These are objects already in the game scene that you are able to edit.
+        #region BaseGameTracks 
+        //typically there are 5.
+        InheritedTrackAnimations Track1 = new InheritedTrackAnimations();
+        InheritedTrackAnimations Track2 = new InheritedTrackAnimations();
+        InheritedTrackAnimations Track3 = new InheritedTrackAnimations();
+        InheritedTrackAnimations Track4 = new InheritedTrackAnimations();
+        InheritedTrackAnimations Track5 = new InheritedTrackAnimations();
 
+        Track1.Name = "Track 1";
+        Track2.Name = "Track 2";
+        Track3.Name = "Track 3";
+        Track4.Name = "Track 4";
+        Track5.Name = "Track 5";
+                #endregion
+        InheritedCameraAnimations Camera = new InheritedCameraAnimations();
+        #endregion
 
         // \/\/\/\/ YOUR CODE GOES HERE 
-        
+
         // /\/\/\/\ YOUR CODE GOES HERE
 
 
@@ -42,6 +57,8 @@ class MyMap
         compiler.CompileScript(ChartMapFolder, ChartName);
     }
 }
+
+
 
 #region Object Types
 
@@ -128,6 +145,32 @@ BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and
             BaseObject obj = new BaseObject(vex); //imports VanillaExtendedCharts object and initializes it for the compiler.
         }
     }
+
+    public class Track : InheritedTrackAnimations
+    {
+
+        public Track(float _Beats, string _Name, string TrackToImitate, Vector3 _Position, Vector3 _Rotation, Vector3 _Scale, string _TrackColor, string _KeyColor, float _Opacity)
+        {
+            VanillaEvents vex = new VanillaEvents();
+vex.Beats = _Beats;
+            if (_Beats == 0)
+                vex.Beats = 0.01;
+
+            vex.Name = _Name ?? "New Track";
+            Name = vex.Name;
+            vex.Position = _Position;
+            vex.Rotation = _Rotation;
+            vex.Scale = _Scale;
+            vex.TrackColor = _TrackColor ?? "C1003F";
+            vex.KeyColor = _KeyColor ?? "626262";
+            vex.Opacity = _Opacity;
+            vex.Object = "Track";
+
+vex.TrackToImitate = TrackToImitate;
+
+            TrackObject obj = new TrackObject(vex);
+        }
+    }
 }
 
 #endregion
@@ -158,43 +201,48 @@ namespace ExtendedCharts.Notes
 
 namespace ExtendedCharts
 {
-public class VanillaEvents
-{
-    public string EventType { get; set; } = default!; // The Event to call (e.g., ChangeColor)
+    public class VanillaEvents
+    {
+        public string EventType { get; set; } = default!; // The Event to call (e.g., ChangeColor)
 
-    public double Beats { get; set; } = default!;  // when this event should be carried out.
-    public string Object { get; set; } = default!;  // what object to call this on (by name)
+        public double Beats { get; set; } = default!;  // when this event should be carried out.
+        public string Object { get; set; } = default!;  // what object to call this on (by name)
 
-    // Animation
-    public Vector3 StartPosition { get; set; } = default!; // should be a Vector3 but idc
-    public Vector3 EndPosition { get; set; } = default!;
-    public Vector3 StartRotation { get; set; } = default!;
-    public Vector3 EndRotation { get; set; } = default!;
-    public Vector3 StartScale { get; set; } = default!;
-    public Vector3 EndScale { get; set; } = default!;
-    public string StartColor { get; set; } = default!; 
-    public string EndColor { get; set; } = default!; 
-    public float StartFade { get; set; }
-    public float EndFade { get; set; }
-    public string Easing { get; set; } = default!; 
+        // Animation
+        public Vector3 StartPosition { get; set; } = default!; // should be a Vector3 but idc
+        public Vector3 EndPosition { get; set; } = default!;
+        public Vector3 StartRotation { get; set; } = default!;
+        public Vector3 EndRotation { get; set; } = default!;
+        public Vector3 StartScale { get; set; } = default!;
+        public Vector3 EndScale { get; set; } = default!;
+        public string StartColor { get; set; } = default!;
+        public string EndColor { get; set; } = default!;
+        public float StartFade { get; set; }
+        public float EndFade { get; set; }
+        public string Easing { get; set; } = default!;
 
-    public float Duration { get; set; }
+        public float Duration { get; set; }
 
-    // Module Specific...
-    public string Text { get; set; } = default!; 
-    public string Shape { get; set; } = default!; 
-    public int Track { get; set; }
-    public string Path { get; set; } = default!; 
+        // Module Specific...
+        public string Text { get; set; } = default!;
+        public string Shape { get; set; } = default!;
+        public string Track { get; set; } = default!;
+        public string TrackToImitate { get; set; } = default!;
+        public string PartToEdit { get; set; } = default!;
 
-    // For Entities
-    // vanilla!
-    public string Name { get; set; } = default!; 
-    public Vector3 Position { get; set; } = default!;
-    public Vector3 Rotation { get; set; } = default!;
-    public Vector3 Scale { get; set; } = default!;
-    public string Color { get; set; } = default!; 
-    public float Opacity { get; set; }
-}
+        public string Path { get; set; } = default!;
+
+        // For Entities
+        // vanilla!
+        public string Name { get; set; } = default!;
+        public Vector3 Position { get; set; } = default!;
+        public Vector3 Rotation { get; set; } = default!;
+        public Vector3 Scale { get; set; } = default!;
+        public string Color { get; set; } = default!;
+        public string TrackColor { get; set; } = default!;
+        public string KeyColor { get; set; } = default!;
+        public float Opacity { get; set; }
+    }
 
 
     public class BaseObject
@@ -211,7 +259,6 @@ public class VanillaEvents
 
         public string Text = default!;
         public string Shape = default!;
-        public int Track;
         public string Path = default!;
 
         //i hate the entirety of BSMG
@@ -228,7 +275,7 @@ public class VanillaEvents
             Color = vex.Color ?? "FFFFFF";
             Opacity = vex.Opacity;
             Object = vex.Object ?? "Shape";
-            vex.EventType = "Create";
+            vex.EventType = "CreateObject";
 
             if (Object == "Text")
                 Text = vex.Text ?? "New Text Object";
@@ -240,6 +287,36 @@ public class VanillaEvents
             Compiler.AddEvent(vex);
         }
 }
+
+	public class TrackObject
+	{
+		//vanilla!
+		public string Name;
+		public string TrackToImitate; // 0 - 4, or -1 if you don't want to imitate any
+		public Vector3 Position, Rotation, Scale;
+		public string TrackColor, KeyColor;
+		public float Opacity;
+		public double Beats; //when this event should be carried out.
+
+		//i hate the entirety of BSMG
+		public TrackObject(VanillaEvents vex) //seriously i hope y'all die like i hate you
+		{
+			Beats = vex.Beats;
+			if (Beats == 0)
+				Beats = 0.01;
+
+			Name = vex.Name ?? "New Track";
+			Position = vex.Position;
+			Rotation = vex.Rotation;
+			Scale = vex.Scale;
+			TrackColor = vex.TrackColor ?? "C1003F";
+			KeyColor = vex.KeyColor ?? "626262";
+			Opacity = vex.Opacity;
+			TrackToImitate = vex.TrackToImitate;
+            vex.EventType = "CreateTrack";
+            Compiler.AddEvent(vex);
+		}
+	}
     #endregion
 
 #region Events
@@ -253,7 +330,7 @@ public class VanillaEvents
         public Vector3 StartPosition, EndPosition;
         public string Object, Easing;
         //If Track or Camera
-        public int Track;
+        public string Track;
         public float Duration;
 
         public AnimatePosition(VanillaEvents vex)
@@ -280,7 +357,7 @@ Compiler.AddEvent(vex);
         public Vector3 StartRotation, EndRotation;
         public string Object, Easing;
         //If Track or Camera
-        public int Track;
+        public string Track;
         public float Duration;
         public AnimateRotation(VanillaEvents vex)
         {
@@ -306,7 +383,7 @@ Compiler.AddEvent(vex);
         public double Beats;
         public Vector3 StartScale, EndScale;
         //If Track or Camera
-        public int Track;
+        public string Track;
         public string Object, Easing;
         public float Duration;
 
@@ -330,60 +407,60 @@ Compiler.AddEvent(vex);
         }
     }
 
-
-    public class AnimateColor
-    {
-        public double Beats;
-        public bool Fade;
-        public string StartColor, EndColor;
-
-        public int Track;
-
-        public string Object, Easing;
-        public float Duration;
-
-        public AnimateColor(VanillaEvents vex)
+        public class AnimateColor
         {
+            public double Beats;
+            public bool Fade;
+            public string StartColor, EndColor;
 
-            Beats = vex.Beats;
+            public string Track, PartToEdit;
 
-            StartColor = vex.StartColor ?? "FFFFFF"; //default value is Color.white in HexCode
-            EndColor = vex.EndColor ?? "FFFFFF"; //default value is Color.white in HexCode
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-vex.EventType = "ChangeColor";
-Compiler.AddEvent(vex);
+            public string Object, Easing;
+            public float Duration;
+
+            public AnimateColor(VanillaEvents vex)
+            {
+
+                Beats = vex.Beats;
+
+                StartColor = vex.StartColor ?? "FFFFFF";
+                EndColor = vex.EndColor ?? "FFFFFF";
+                Object = vex.Object ?? "None";
+                Easing = vex.Easing ?? "Linear";
+                Duration = vex.Duration;
+                Track = vex.Track ?? "Track 1";
+                PartToEdit = vex.PartToEdit ?? "Track";
+                vex.EventType = "ChangeColor";
+                Compiler.AddEvent(vex);
+            }
         }
-    }
 
 
-    public class AnimateFade
-    {
-        public double Beats;
-        public float StartFade, EndFade = 1.0f;
-        public int Track;
-        public string Object, Easing;
-        public float Duration;
-
-        public AnimateFade(VanillaEvents vex)
+        public class AnimateFade
         {
+            public double Beats;
+            public float StartFade, EndFade = 1.0f;
+            public string Track;
+            public string Object, Easing;
+            public float Duration;
 
-            Beats = vex.Beats;
-            if (Beats == 0)
-                Beats = 0.01;
+            public AnimateFade(VanillaEvents vex)
+            {
 
-            StartFade = vex.StartFade;
-            EndFade = vex.EndFade;
-            Object = vex.Object ?? "None";
-            Easing = vex.Easing ?? "Linear";
-            Duration = vex.Duration;
-            Track = vex.Track;
-vex.EventType = "ChangeFade";
-Compiler.AddEvent(vex);
+                Beats = vex.Beats;
+                if (Beats == 0)
+                    Beats = 0.01;
+
+                StartFade = vex.StartFade;
+                EndFade = vex.EndFade;
+                Object = vex.Object ?? "None";
+                Easing = vex.Easing ?? "Linear";
+                Duration = vex.Duration;
+                Track = vex.Track;
+                vex.EventType = "ChangeFade";
+                Compiler.AddEvent(vex);
+            }
         }
-    }
 
 
     //yes im using classes for this shit, shut up
@@ -411,7 +488,6 @@ Compiler.AddEvent(vex);
         }
     }
 
-
     public class ChangeImage
     {
         public double Beats;
@@ -434,6 +510,45 @@ Compiler.AddEvent(vex);
             Compiler.AddEvent(vex);
         }
     }
+
+        public class Destroy
+    {
+        public double Beats;
+        public string Object;
+        public Destroy(VanillaEvents vex)
+        {
+            Object = vex.Object ?? "None";
+            Beats = vex.Beats;
+            if (Beats == 0)
+                Beats = 0.01;
+
+            vex.EventType = "Destroy";
+            Compiler.AddEvent(vex);
+        }
+    }
+
+    public class SwitchImitationTrack
+	{
+
+		public double Beats;
+		public string TrackToEdit;
+		public string NewImitator;
+
+		public SwitchImitationTrack(VanillaEvents vex)
+		{
+			Beats = vex.Beats;
+			TrackToEdit = vex.Track;
+			NewImitator = vex.TrackToImitate;
+
+
+                vex.EventType = "SwitchImitationTrack";
+                Compiler.AddEvent(vex);
+		}
+	}
+
+#endregion
+
+# region InternalObjectWorkings
 
         public class InheritedObjectAnimations
         {
@@ -524,18 +639,27 @@ Compiler.AddEvent(vex);
                 AnimateFade fade = new AnimateFade(vex);
             }
 
+             public void Destroy(float Beats)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = Name;
+
+                Destroy obj = new Destroy(vex);
+            }
+
         }
 
         public class InheritedTrackAnimations
         {
-            public int Name = default!; //name of object to edit
+            public string Name = default!; //name of object to edit
 
-            public void ChangePosition(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            public void ChangePosition(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
-                vex.Track = Track;
+                vex.Track = Name;
                 vex.StartPosition = Start;
                 vex.EndPosition = End;
                 vex.Duration = Duration;
@@ -544,12 +668,12 @@ Compiler.AddEvent(vex);
                 AnimatePosition position = new AnimatePosition(vex);
             }
 
-            public void ChangeRotation(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            public void ChangeRotation(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
-                vex.Track = Track;
+                vex.Track = Name;
                 vex.StartRotation = Start;
                 vex.EndRotation = End;
                 vex.Duration = Duration;
@@ -558,12 +682,12 @@ Compiler.AddEvent(vex);
                 AnimateRotation rotation = new AnimateRotation(vex);
             }
 
-            public void ChangeScale(float Beats, int Track, Vector3 Start, Vector3 End, float Duration, string EasingType)
+            public void ChangeScale(float Beats, Vector3 Start, Vector3 End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
-                vex.Track = Track;
+                vex.Track = Name;
                 vex.StartScale = Start;
                 vex.EndScale = End;
                 vex.Duration = Duration;
@@ -572,12 +696,13 @@ Compiler.AddEvent(vex);
                 AnimateScale scale = new AnimateScale(vex);
             }
 
-            public void ChangeColor(float Beats, int Track, string Start, string End, float Duration, string EasingType)
+            public void ChangeColor(float Beats, string PartToEdit, string Start, string End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
-                vex.Track = Track;
+                vex.Track = Name;
+                vex.PartToEdit = PartToEdit;
                 vex.StartColor = Start;
                 vex.EndColor = End;
                 vex.Duration = Duration;
@@ -586,12 +711,12 @@ Compiler.AddEvent(vex);
                 AnimateColor color = new AnimateColor(vex);
             }
 
-            public void ChangeFade(float Beats, int Track, float Start, float End, float Duration, string EasingType)
+            public void ChangeFade(float Beats, float Start, float End, float Duration, string EasingType)
             {
                 VanillaEvents vex = new VanillaEvents();
                 vex.Beats = Beats;
                 vex.Object = "Track"; //the game can handle null things i dont think i need to care about fields being null, do I?
-                vex.Track = Track;
+                vex.Track = Name;
                 vex.StartFade = Start;
                 vex.EndFade = End;
                 vex.Duration = Duration;
@@ -600,6 +725,24 @@ Compiler.AddEvent(vex);
                 AnimateFade fade = new AnimateFade(vex);
             }
 
+            public void Destroy(float Beats)
+            {
+                VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track";
+                vex.Track = Name;
+
+                Destroy ase = new Destroy(vex);
+            }
+
+            public void SwitchImitationTrack(float Beats, string TrackToEdit, string NewImitator) {
+                 VanillaEvents vex = new VanillaEvents();
+                vex.Beats = Beats;
+                vex.Object = "Track";
+                vex.Track = Name;
+
+                SwitchImitationTrack switchimi = new SwitchImitationTrack(vex);
+            }
         }
 
         public class InheritedCameraAnimations
@@ -784,7 +927,7 @@ writer.WritePropertyName("Beats");
             writer.WriteValue(value.Object);
 
             #region SpawnerFunctionFunneler
-            if (value.EventType == "Create")
+            if (value.EventType == "CreateObject")
             {
                 writer.WritePropertyName("Position");
                 Vector3ToFloatArray(value.Position, writer, serializer);
@@ -820,6 +963,26 @@ writer.WritePropertyName("Beats");
 
                     // Include other Text-specific properties here
                 }
+            }
+
+            if (value.EventType == "CreateTrack")
+            {
+                writer.WritePropertyName("Position");
+                Vector3ToFloatArray(value.Position, writer, serializer);
+                writer.WritePropertyName("Rotation");
+                Vector3ToFloatArray(value.Rotation, writer, serializer);
+                writer.WritePropertyName("Scale");
+                Vector3ToFloatArray(value.Scale, writer, serializer);
+                writer.WritePropertyName("TrackColor");
+                writer.WriteValue(value.TrackColor);
+                writer.WritePropertyName("KeyColor");
+                writer.WriteValue(value.KeyColor);
+                writer.WritePropertyName("Opacity");
+                writer.WriteValue(value.Opacity);
+                writer.WritePropertyName("Name");
+                writer.WriteValue(value.Name);
+                writer.WritePropertyName("TrackToImitate");
+                writer.WriteValue(value.TrackToImitate);
             }
             #endregion
             #region TransformIJ FunctionFunneler
@@ -891,6 +1054,8 @@ writer.WritePropertyName("Beats");
                 {
                     writer.WritePropertyName("Track");
                     writer.WriteValue(value.Track);
+                    writer.WritePropertyName("PartToEdit");
+                    writer.WriteValue(value.PartToEdit);
                 }
             }
 
@@ -925,7 +1090,15 @@ writer.WritePropertyName("Beats");
                 writer.WriteValue(value.Text);
             }
             #endregion
-
+            #region Tracks FunctionFunneler
+            if (value.EventType == "SwitchImitationTrack")
+            {
+                writer.WritePropertyName("TrackToEdit");
+                writer.WriteValue(value.Track);
+                writer.WritePropertyName("NewImitator");
+                writer.WriteValue(value.TrackToImitate);
+            }
+#endregion
             
 
             // Add more conditions for other object types as needed

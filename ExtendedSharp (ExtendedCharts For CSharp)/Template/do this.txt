@@ -1,0 +1,3 @@
+- update AnimateColor to add 'ObjectToEdit'
+- Add support for a 'ChangeTrackColor' function
+- update VanillaEvents to add "PartToEdit"
